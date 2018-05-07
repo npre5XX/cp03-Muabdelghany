@@ -1,65 +1,48 @@
-NPRE 555 CP2 “P1 and P3 Numerical Solutions for Neutron Transport in a 1D infinite slab”
+NPRE 555 CP3 “Discrete Ordinate Solution Using Radau's Quadrature Set”
 By Muhammad Abdelghany
 PhD Student at the NPRE department at the UIUC
 ***********************************************
 
-This code is made using MATLAB and is Composed of 2 folders, one is for P1 solution and
-the other is for P2 solution. Each folder have 2 files, one for the solution using Mark’s
-Boundary conditions at the vacuum boundary and the other is for the solution using Marshak’s
-Boundary Conditions.
+This code is made using MATLAB and is Composed of 3 folders. The first one is for Solving the discrete
+ordinate using Radau's Quadrature Set and then comparing it with Gauss-Legendre's and Chebyshev’s 
+quadrature set. This is used to solve a one-dimension slab geometry, with vacuum boundary conditions,
+making use of Marshak’s boundary conditions. The second one, is to study the spatial convergence for a
+given order of Radau's Quadrature. Finally, the third one, is to study the accuracy convergance of this 
+approach.
 
 The Details of Each File:
 *************************
 
-1. “P1Mark.m” in the P1 folder
-------------------------------
+1. “cp3_Radau_Q1” in the Q1 folder
+----------------------------------
 
-In this file, you can calculate the P1 approximation of the scalar flux in the slab assuming
-Mark’s boundary conditions at the vacuum boundaries, where the scalar flux is assumed to 
-vanish there. The code starts with specifying the width of the slab (L) and the cross-sections,
-then the number of mesh points (k) which you can changed according to your preference of 
-accuracy. The code then builds the (S) and (A) matrices and in the first step it takes care
-of the Mark’s BCs by specifying the 1st and kth rows of the (A) Matrix.
-Next it finds the inverse of the (A) matrix and calculate the flux matrix (phi). 
-At the end, a plot of flux (phi) vs the width of the slab (x) is generated.
+In this file, you can calculate the partial fluxes, rightward angular flux, leftward angular flux,
+and scalar flux with implementing the Radau's Quadrature Set, using 4 quadrature and 120 space meshes.
 
-2. “P1Marshak.m” in the P1 folder
----------------------------------
+2. “cp3_Gauss_Q1” in the Q1 folder
+----------------------------------
 
-This file is exactly similar to the previous one “P1Mark.m”, and starts with specifying the
- number of space points (k) and the width of the slab (L). The only difference is that, 
-while building the (S) and (A) matrices, in the first step it takes care of the Marshak’s 
-BCs by specifying the 1st and kth rows of the (A) Matrix. Marshak’s boundary conditions 
-assumes that the  incoming neutron currents are zero at the vacuum boundaries. 
+This file is exactly doing the same as the previous file but with implementing the Gauss-Legendre's 
+Quadrature Set.
 
-3. “P3Mark.m” in the P3 folder
-------------------------------
+3. “cp3_Compare_Gauss_Q1”, “cp3_Compare_Radau_Q1”, and “cp3_Compare_Chebyshev_Q1” in the Q1 folder
+--------------------------------------------------------------------------------------------------
 
-In this file, you can calculate the P3 approximation of the scalar flux in the slab assuming
-Mark’s boundary conditions at the vacuum boundaries, where the scalar flux is assumed to 
-vanish there. The code starts with specifying the width of the slab (L) and the 
-cross-sections, then the number of mesh points (k) which you can changed according to your
-preference of accuracy. The code is developed to implement an iterative scheme of the (F1)
-and (F0) and to find the scalar flux after matching a certain conversion criterion (mx_dif).
-The code starts with specifying an arbitrary initial guess for (F0) and (F1) corresponding
-to the 1st iteration, then it calculates the values of (F0) and (F1) at each mesh point for
-each iteration. Then, at each iteration it assumes the initial values of (F1) of the two 
-boundary points that are not possible to be calculated from the (F1) equations to be equal
-to the corresponding values of the nearest neighboring points.
-Next, for each iteration the code implement Mark’s BCs for the two boundary points for (F0)
-interms of (F1). Then it calculates the scalar flux (phi) for each mesh point and calculates
- the difference in (phi) between each two successive iteration for each mesh point and 
- ompare the maximum of this difference with the pre-specified convergence criterion (mx_dif).
-After the convergence criterion is satisfied, the code displays the number of iterations (n)
-required and then generate a plot of the flux (phi) vs the width of the slab (x).
+These are three files used simultaneously to generate the graphs for comparing the results of implementing
+Radau's Quadrature, and the  results obatined by applying the Gauss-Legendre's and Chebyshev’s approaches.
 
-2. “P3Marshak.m” in the P3 folder
----------------------------------
+3. “cp3_Radau_Q2_2.m” in the Q2.2 folder
+----------------------------------------
 
-This file is exactly similar to the previous one “P3Mark.m”, and starts with specifying the
-number of space points (k) and the width of the slab (L). The only difference is that, it 
-implement the equations required by applying the Marshak’s boundary conditions during each
-iteration for the two boundary points for (F0) in terms of (F1). At the end, the code 
-displays the number of iterations (n) required to satisfy the conversion criterion and then
-generate a plot of the flux (phi) vs the width of the slab (x).
+In this file, we do a spatial convergence study by changing the number of space meshes in a systematic 
+way and calculate the difference in the scalar flux between the different iterations till it match a certain
+convergence criterion. This study is done using 4 Radau's quadrature. A graph for the error estimated vs the
+number of spatial meshes is generated.
 
+2. “cp3_Radau_Q2_3.m” in the Q2.3 folder
+----------------------------------------
+
+In this file, we carry out an accuracy convergance study. By fixing the number of space meshes to be 
+sufficiently a big number like (81), then we study the accuracy convergence of using the Radau’s quadrature
+with increasing the considered order and calculate the flux change between these iterations. The values
+obtained are plotted verses the order of the used quadrature.
